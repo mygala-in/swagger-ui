@@ -1,10 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: MyGala
-tags:
-  - name: general
-    description: General public apis
+  title: bk-general
 servers:
   - url: https://dev-api.mygala.in
     description: dev
