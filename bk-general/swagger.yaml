@@ -65,40 +65,30 @@ paths:
         The swagger config api is not allowed on prod environment, it will work
         only on dev & stage environments. fetches & returns swagger config json
         from bk-utils
-      tags:
-        - general
       responses:
         '200':
           description: api successful
   /general/v1/config:
     get:
       summary: gets the app config
-      tags:
-        - general
       responses:
         '200':
           description: api successful
   /general/v1/dial-codes:
     get:
       summary: get allowed country dial codes
-      tags:
-        - general
       responses:
         '200':
           description: api successful
   /general/v1/vendor-categories:
     get:
       summary: get allowed vendor categories
-      tags:
-        - general
       responses:
         '200':
           description: api successful
   /general/v1/search/{entity}:
     get:
       summary: global search; includes mini profiles & active weddings
-      tags:
-        - general
       security:
         - Bearer: []
       parameters:
