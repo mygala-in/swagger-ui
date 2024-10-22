@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: bk-general
+tags:
+  - name: general
+    description: General public apis
+servers:
+  - url: https://dev-api.mygala.in
+    description: dev
+  - url: https://api.mygala.in
+    description: prod
+  - url: http://localhost:3000
+    description: localhost
+components:
+  parameters:
+    page:
+      in: query
+      name: page
+      schema:
+        type: number
+    query:
+      in: query
+      name: q
+      schema:
+        type: string
+      required: true
+    entity:
+      in: path
+      description: all, wedding, user etc; individual search components
+      name: entity
+      schema:
+        type: string
+      required: true
+    app:
+      in: query
+      description: app from which the request is being sent
+      name: app
+      schema:
+        type: string
+        enum:
+          - user
+          - vendor
+      required: true
+    platform:
+      in: header
+      name: platform
+      schema:
+        type: string
+        enum:
+          - android
+          - web
+          - ios
+      required: true
+    appversion:
+      in: header
+      description: build number of the app
+      name: appversion
+      schema:
+        type: integer
+        default: 1
+      required: true
+paths:
+  /general/v1/swagger:
+    get:
+      summary: gets the swagger config
+      description: >-
+        The swagger config api is not allowed on prod environment, it will work
+        only on dev & stage environments. fetches & returns swagger config json
+        from bk-utils
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/config:
+    get:
+      summary: gets the app config
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/dial-codes:
+    get:
+      summary: get allowed country dial codes
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/vendor-categories:
+    get:
+      summary: get allowed vendor categories
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/search/{entity}:
+    get:
+      summary: global search; includes mini profiles & active weddings
+      tags:
+        - general
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/entity'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
