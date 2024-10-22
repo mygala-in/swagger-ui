@@ -1,0 +1,2271 @@
+openapi: 3.0.0
+info:
+  version: 2.1.0
+  title: MyGala
+  description: Backend APIs documentation for MyGala
+tags:
+  - name: admin
+    description: admin action apis
+  - name: vendor
+    description: vendor service apis
+  - name: notification
+    description: notification service apis
+  - name: timeline
+    description: timeline service apis
+  - name: general
+    description: General public apis
+  - name: profile
+    description: profile service apis
+  - name: chat
+    description: individual & group chat apis
+  - name: wedding
+    description: wedding & event service apis
+  - name: asset
+    description: asset service apis
+  - name: location
+    description: location service apis
+  - name: gifting
+    description: gifting service apis
+servers:
+  - url: https: //dev-api.mygala.in
+    description: dev
+  - url: https: //api.mygala.in
+    description: prod
+  - url: http: //localhost:3000
+    description: localhost
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  parameters:
+    page:
+      in: query
+      name: page
+      schema:
+        type: number
+    query:
+      in: query
+      name: q
+      schema:
+        type: string
+      required: true
+    weddingId:
+      in: path
+      description: unique id of the wedding
+      name: weddingId
+      schema:
+        type: string
+      required: true
+    eventId:
+      in: path
+      description: unique id of the event
+      name: eventId
+      schema:
+        type: string
+      required: true
+    id:
+      in: path
+      description: unique id
+      name: id
+      schema:
+        type: string
+      required: true
+    userId:
+      in: path
+      description: the id can be email, username or phone
+      name: userId
+      schema:
+        type: string
+      required: true
+    entity:
+      in: path
+      description: all, wedding, user etc; individual search components
+      name: entity
+      schema:
+        type: string
+      required: true
+    qUserId:
+      in: query
+      description: the id of an user
+      name: userId
+      schema:
+        type: string
+      required: true
+    streamId:
+      in: path
+      description: unique id of the video stream
+      name: streamId
+      schema:
+        type: string
+      required: true
+    chatId:
+      in: path
+      description: unique id of a chat conversation
+      name: chatId
+      schema:
+        type: string
+      required: true
+    app:
+      in: query
+      description: app from which the request is being sent
+      name: app
+      schema:
+        type: string
+        enum:
+          - user
+          - vendor
+      required: true
+    details:
+      in: query
+      description: if the full details is required or not
+      name: details
+      schema:
+        type: boolean
+        default: false
+      required: true
+    include:
+      in: query
+      description: extra includes based on requirement
+      name: include
+      schema:
+        type: string
+      required: false
+    platform:
+      in: header
+      name: platform
+      schema:
+        type: string
+        enum:
+          - android
+          - web
+          - ios
+      required: true
+    appversion:
+      in: header
+      description: build number of the app
+      name: appversion
+      schema:
+        type: integer
+        default: 1
+      required: true
+    vendorId:
+      in: path
+      description: unique id of the vendor
+      name: vendorId
+      schema:
+        type: integer
+      required: true
+    packageId:
+      in: path
+      description: unique id of a vendor package
+      name: packageId
+      schema:
+        type: integer
+      required: true
+    locationId:
+      in: path
+      description: unique id of the location
+      name: locationId
+      schema:
+        type: integer
+      required: true
+    commentId:
+      in: path
+      description: unique id of the comment
+      name: commentId
+      schema:
+        type: integer
+      required: true
+    occasion:
+      in: query
+      name: occasion
+      description: The occasion for which recommendations are requested.
+      schema:
+        type: string
+        enum:
+          - Birthday
+          - Wedding
+          - Engagement
+          - HouseWarming
+          - CorporateEvents
+          - BabyShower
+          - NamingCeremony
+          - BachelorParty
+          - Anniversary
+      required: true
+    wishlistId:
+      in: path
+      description: unique id of the wishlist
+      name: wishlistId
+      schema:
+        type: string
+      required: true
+    parentId:
+      in: query
+      description: wishlist for requested parentId
+      name: parentId
+      schema:
+        type: string
+      required: true
+  schemas:
+    query-cache:
+      properties:
+        action:
+          type: string
+          enum:
+            - set
+            - get
+            - del
+            - ttl
+        key:
+          type: string
+        val:
+          type: string
+        type:
+          type: string
+          enum:
+            - json
+        secs:
+          type: number
+    query-db:
+      properties:
+        query:
+          type: string
+          enum:
+            - select * from users;
+    new-asset:
+      properties:
+        resourceType:
+          type: number
+        assetType:
+          type: string
+        url:
+          type: string
+        eventId:
+          type: number
+        weddingId:
+          type: number
+        chatId:
+          type: number
+        fromTime:
+          type: number
+        tillTime:
+          type: number
+    new-post:
+      properties:
+        type:
+          type: string
+          description: type of post to be created
+        weddingId:
+          type: number
+        status:
+          type: string
+        text:
+          type: string
+    update-post:
+      properties:
+        status:
+          type: string
+        text:
+          type: string
+    chat-message:
+      properties:
+        val:
+          type: string
+        at:
+          type: number
+        type:
+          type: string
+        users:
+          type: array
+          items:
+            type: number
+    signin:
+      properties:
+        tokenId:
+          description: >-
+            the google tokenId received after successful login, usually valid
+            for 1hour
+          type: string
+        uid:
+          description: firebase uid of the user
+          type: string
+        type:
+          description: google, apple, phone
+          type: string
+    signin-resp:
+      properties:
+        accesstoken:
+          description: jwt token encoded with user details such as email, uid, etc.
+          type: string
+        expiryMillis:
+          description: expiry time of accesstoken in epoch milli seconds
+          type: number
+        isSignUp:
+          description: true for first time users,
+false otherwise
+          type: boolean
+    profile-settings:
+      properties:
+        notifications:
+          type: object
+          properties:
+            connRequest:
+              type: boolean
+            message:
+              type: boolean
+            likes:
+              type: boolean
+            comments:
+              type: boolean
+            commentLikes:
+              type: boolean
+    profile-update:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        bio:
+          type: string
+        dob:
+          description: YYYY-MM-DD format
+          type: string
+        phone:
+          type: string
+        gender:
+          type: string
+        maritial:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+        city:
+          type: string
+        country:
+          type: string
+        pincode:
+          type: string
+        instagram:
+          type: string
+        facebook:
+          type: string
+    new-wedding:
+      properties:
+        title:
+          type: string
+        note:
+          type: string
+        side:
+          type: string
+    update-wedding:
+      properties:
+        title:
+          type: string
+        note:
+          type: string
+        groomId:
+          type: string
+        brideId:
+          type: string
+        side:
+          type: string
+    wedding-event:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        fromTime:
+          type: number
+        tillTime:
+          type: number
+    update-chat:
+      properties:
+        isGroup:
+          type: boolean
+        users:
+          type: array
+          items:
+            type: number
+        name:
+          type: string
+        url:
+          type: string
+    like:
+      properties:
+        postId:
+          type: number
+        type:
+          type: string
+    comment:
+      properties:
+        postId:
+          type: number
+        type:
+          type: string
+        text:
+          type: string
+    new-vendor:
+      type: object
+      properties:
+        category: {}
+        subCategory: {}
+    default:
+      type: object
+    update-vendor:
+      properties:
+        category:
+          type: string
+        subCategory:
+          type: string
+        title:
+          type: string
+        photo:
+          type: string
+        description:
+          type: string
+        contact:
+          type: object
+        social:
+          type: object
+        features:
+          type: array
+          items:
+            type: object
+        packages:
+          type: array
+          items:
+            type: object
+    new-wishlist:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the wishlist item
+              parentId:
+                type: string
+                description: Identifier for the parent entity
+              url:
+                type: string
+                description: URL associated with the wishlist item
+              price:
+                type: string
+                description: Price of the wishlist item
+              needed:
+                type: boolean
+                description: Indicates if the item is needed
+              groupBy:
+                type: string
+                description: Character used for grouping items (e.g., 'G' for group)
+              quantity:
+                type: number
+                description: Quantity of the wishlist item
+            required:
+              - parentId
+              - url
+      required:
+        - items
+    update-wishlist:
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        price:
+          type: string
+        needed:
+          type: boolean
+        groupBy:
+          type: string
+        quantity:
+          type: number
+paths:
+  /general/v1/swagger:
+    get:
+      summary: gets the swagger config
+      description: >-
+        The swagger config api is not allowed on prod environment, it will work
+        only on dev & stage environments. fetches & returns swagger config json
+        from bk-utils
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/config:
+    get:
+      summary: gets the app config
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/dial-codes:
+    get:
+      summary: get allowed country dial codes
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/vendor-categories:
+    get:
+      summary: get allowed vendor categories
+      tags:
+        - general
+      responses:
+        '200':
+          description: api successful
+  /general/v1/search/{entity
+}:
+    get:
+      summary: global search; includes mini profiles & active weddings
+      tags:
+        - general
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/entity'
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /general/v1/query/db:
+    post:
+      summary: query rds db operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-db'
+      responses:
+        '200':
+          description: api successful
+  /general/v1/query/cache:
+    post:
+      summary: query redis cache operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-cache'
+      responses:
+        '200':
+          description: api successful
+  /profile/v1/signin/{provider
+}:
+    put:
+      summary: used for google signin, apple signin and phone signin
+      description: >-
+        The same API will be used for google signin & signup. Returns
+        accesstoken, expiryMillis & isSignUp boolean values. isSignUp boolean is
+        used to determine whether the user follows signin flow or signup flow.
+      tags:
+        - profile
+      parameters:
+        - in: path
+          name: provider
+          required: true
+          schema:
+            type: string
+            enum:
+              - phone
+              - google
+              - apple
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/signin'
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/signin-resp'
+  /profile/v1/username:
+    head:
+      summary: to check username availability
+      description: >-
+        The API to check whether a particular username is available or not.
+        returns 200 status code if available, else 4** error codes will be
+        returned.
+      tags:
+        - profile
+      parameters:
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: username available
+        '403':
+          description: username taken
+  /profile/v1/admin/user/list:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/admin/user/new:
+    post:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: success
+  /profile/v1/admin/user/{userId
+}:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: success
+    delete:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/{userId
+}:
+    put:
+      summary: to update the user profile details
+      description: >-
+        To update the profile fields of the current user. the fields should not
+        relate to profile settings.
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/profile-update'
+      responses:
+        '200':
+          description: success
+    get:
+      summary: fetch full profile of the user
+      description: >-
+        Fetches the full user profile details based on the excat match of the
+        id. the ID may belong to the current user, or user with public profile,
+        or user in connections list, will always result single user.
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: mark profile for deletion
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/settings:
+    put:
+      summary: to update the user profile settings
+      description: >-
+        To update the profile setttings of the current user. used to manage
+        notifications, emails etc. and other user preferences.
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/profile-settings'
+      responses:
+        '200':
+          description: success
+    get:
+      summary: to fetch the user profile settings
+      description: >-
+        To fetch the profile settings of the current user. settings includes
+        configs to manage notifications, emails, and other user preferences.
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/search:
+    get:
+      summary: to fetch mini profiles of matching users
+      description: >-
+        To fetch mini profiles of matching users. Fizzy search will be made &
+        results may contain multiple users, with pagination
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/query'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/notifications:
+    get:
+      summary: list of notitication topics for the requested user
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /profile/v1/{userId
+}/assets:
+    get:
+      summary: to fetch the user profile images of the id
+      description: >-
+        To fetch all the images of an user based on the id. the ID may belong to
+        the current user, or user with public profile, or user in connections
+        list.
+      tags:
+        - profile
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/list:
+    get:
+      summary: list joined weddings
+      description: lists the weddings for which user has signed up for.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - events
+              - images
+              - users
+              - weddings
+              - streams
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/new:
+    post:
+      summary: creates a new wedding
+      description: >-
+        User should provide basic details such as name & description. Also
+        supports optional fields such as from & till dates/datetimes.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-wedding'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}:
+    get:
+      summary: get wedding by id
+      description: User can provide additional supported wedding fields.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: updates wedding data
+      description: User can provide additional supported wedding fields.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-wedding'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/join:
+    put:
+      summary: users will request to join the event using this
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: side
+          required: true
+          schema:
+            type: string
+            enum:
+              - B
+              - G
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/assets:
+    get:
+      summary: get images of the wedding
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/event/{eventId
+}/assets:
+    get:
+      summary: get assets of the wedding event
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/users:
+    get:
+      summary: get users of the wedding
+      description: >-
+        Returns the list of users who are in verified, unverified, rejected
+        states along with their sides. The requested user should be in verified
+        state in the wedding.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/events:
+    get:
+      summary: get events of the wedding
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/preview:
+    get:
+      summary: preview the wedding
+      tags:
+        - wedding
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/event/new:
+    post:
+      summary: creates a new event of the wedding
+      description: >-
+        User should provide basic details such as name & description. Also
+        supports optional fields such as from & till dates/datetimes.
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wedding-event'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/event/{eventId
+}:
+    put:
+      summary: update the wedding event details
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wedding-event'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete the wedding event
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    get:
+      summary: get the wedding event
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /wedding/v1/{weddingId
+}/user/{userId
+}:
+    put:
+      summary: take action on the wedding user
+      tags:
+        - wedding
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - verify
+              - reject
+              - remove
+              - watch
+              - user
+              - admin
+              - side
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /asset/v1/new:
+    post:
+      summary: create new asset & return signed url
+      tags:
+        - asset
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-asset'
+      responses:
+        '200':
+          description: success
+  /asset/v1/{assetId
+}:
+    delete:
+      summary: delete asset by id
+      tags:
+        - asset
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: assetId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    get:
+      summary: get asset by id
+      tags:
+        - asset
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: assetId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update asset by id
+      tags:
+        - asset
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: assetId
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-asset'
+      responses:
+        '200':
+          description: success
+  /chat/v1/list:
+    get:
+      summary: >-
+        to get list of individual & group chats which are in accepted or pending
+        states
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /chat/v1/new:
+    post:
+      summary: to create an individual or group chat
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-chat'
+  /chat/v1/{chatId
+}:
+    get:
+      summary: get chat users
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/chatId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update chat users, name & url
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/chatId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-chat'
+  /chat/v1/{chatId
+}/accept:
+    put:
+      summary: to accept chat request
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/chatId'
+      responses:
+        '200':
+          description: success
+  /chat/v1/{chatId
+}/exit:
+    delete:
+      summary: to exit & reject chat
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/chatId'
+        - $ref: '#/components/parameters/qUserId'
+      responses:
+        '200':
+          description: success
+  /chat/v1/{chatId
+}/admin:
+    put:
+      summary: make user as admin
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/chatId'
+        - $ref: '#/components/parameters/qUserId'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: make user as non-admin
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/chatId'
+        - $ref: '#/components/parameters/qUserId'
+      responses:
+        '200':
+          description: success
+  /chat/v1/{chatId
+}/recent:
+    put:
+      summary: update recent chat message
+      tags:
+        - chat
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/chatId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chat-message'
+      responses:
+        '200':
+          description: success
+  /timeline/v1/list:
+    get:
+      summary: get user timeline
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: postId
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - after
+              - before
+        - in: query
+          name: size
+          required: true
+          schema:
+            type: number
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /timeline/v1/wedding/{weddingId
+}/list:
+    get:
+      summary: get wedding timeline
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: postId
+          required: true
+          schema:
+            type: number
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - after
+              - before
+        - in: query
+          name: size
+          required: true
+          schema:
+            type: number
+        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /timeline/v1/new:
+    post:
+      summary: create new post
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-post'
+      responses:
+        '200':
+          description: success
+  /timeline/v1/{id
+}:
+    get:
+      summary: get a post
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update post details
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-post'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete a post
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /timeline/v1/{id
+}/like:
+    put:
+      summary: like action on parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/like'
+      responses:
+        '200':
+          description: api successful
+    delete:
+      summary: unlike action on parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: api successful
+  /timeline/v1/{id
+}/comment:
+    post:
+      summary: new comment action on parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '200':
+          description: api successful
+    put:
+      summary: edit comment action on id
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+      responses:
+        '200':
+          description: api successful
+    delete:
+      summary: uncomment action on parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: api successful
+  /timeline/v1/{id
+}/likes:
+    get:
+      summary: paginated list of likes for a parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - in: query
+          name: page
+          schema:
+            type: number
+        - in: query
+          name: size
+          schema:
+            type: number
+        - in: query
+          name: type
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: api successful
+  /timeline/v1/{id
+}/comments:
+    get:
+      summary: paginated list of comments for a parent
+      tags:
+        - timeline
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - in: query
+          name: page
+          schema:
+            type: number
+        - in: query
+          name: size
+          schema:
+            type: number
+        - in: query
+          name: type
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: api successful
+  /vendor/v1/new:
+    post:
+      summary: creates one or more new vendors
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-vendor'
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}:
+    get:
+      summary: get vendor by id
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: updates vendor details
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-vendor'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete the vendor
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/list:
+    get:
+      summary: list joined vendors
+      description: lists the vendors for which user has signed up for.
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: include
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/code/{code
+}:
+    get:
+      summary: get vendor by id
+      tags:
+        - vendor
+      parameters:
+        - in: path
+          description: unique id of the vendor
+          name: code
+          schema:
+            type: string
+          required: true
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/search:
+    get:
+      summary: search vendors api
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: include
+          schema:
+            type: string
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: subCategory
+          schema:
+            type: string
+        - in: query
+          name: city
+          schema:
+            type: string
+        - in: query
+          name: state
+          schema:
+            type: string
+        - in: query
+          name: pincode
+          schema:
+            type: string
+        - in: query
+          name: country
+          schema:
+            type: string
+        - in: query
+          name: sublocality
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/featured/list:
+    get:
+      summary: list joined vendors
+      description: lists the vendors for which user has signed up for.
+      tags:
+        - vendor
+      parameters:
+        - in: query
+          name: include
+          schema:
+            type: string
+        - in: query
+          name: city
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/assets:
+    get:
+      summary: list all vendor assets
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/package/new:
+    post:
+      summary: create new vendor package
+      tags:
+        - vendor
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/package/list:
+    get:
+      summary: create new vendor package
+      tags:
+        - vendor
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/package/{packageId
+}:
+    get:
+      summary: update requested package
+      tags:
+        - vendor
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/packageId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update requested package
+      tags:
+        - vendor
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/packageId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: update requested package
+      tags:
+        - vendor
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/packageId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/locations:
+    get:
+      summary: list all vendor locations
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/submit:
+    put:
+      summary: submit vendor details for review
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: withdraw vendor review submit request
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId
+}/admin/{action
+}:
+    put:
+      summary: submit vendor details for review
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - in: path
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - approve
+              - reject
+              - suspend
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/admin/vendor/list:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/admin/vendor/new:
+    post:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/admin/vendor/{vendorId
+}:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /location/v1/decode:
+    get:
+      summary: decode coordinates
+      tags:
+        - location
+      parameters:
+        - in: query
+          name: lat
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: lon
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: api successful
+  /location/v1/new:
+    post:
+      summary: add new location
+      tags:
+        - location
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /location/v1/{locationId
+}:
+    get:
+      summary: get location by id
+      tags:
+        - location
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/locationId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update location by id
+      tags:
+        - location
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/locationId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete location by id
+      tags:
+        - location
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/locationId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /notification/v1/channels:
+    get:
+      summary: get users & vendors notification channels
+      tags:
+        - notification
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/app'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /gifting/v1/wishlist/recommendations:
+    get:
+      summary: Get recommendations for the user's wishlist based on the occasion
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasion'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /gifting/v1/wishlist/new:
+    post:
+      summary: Create a new wishlist
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-wishlist'
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: Wishlist successfully created
+  /gifting/v1/wishlist/{wishlistId
+}:
+    get:
+      summary: get wishlist by id
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/wishlistId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    patch:
+      summary: update wishlist by id
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-wishlist'
+      parameters:
+        - $ref: '#/components/parameters/wishlistId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete wishlist by id
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/wishlistId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /gifting/v1/wishlist/list:
+    get:
+      summary: Get wishlist based on parentId
+      tags:
+        - gifting
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
