@@ -40,22 +40,16 @@ components:
   schemas:
     new-asset:
       properties:
-        resourceType:
-          type: number
-        assetType:
-          type: string
         url:
           type: string
-        eventId:
-          type: number
-        weddingId:
-          type: number
-        chatId:
-          type: number
-        fromTime:
-          type: number
-        tillTime:
-          type: number
+        parentId:
+          type: string
+        resource:
+          type: string
+        assetType:
+          type: string
+        meta:
+          type: object
 paths:
   /asset/v1/new:
     post:
