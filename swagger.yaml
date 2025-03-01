@@ -10,8 +10,8 @@ tags:
     description: vendor service apis
   - name: notification
     description: notification service apis
-  - name: timeline
-    description: timeline service apis
+  - name: post
+    description: post service apis
   - name: general
     description: General public apis
   - name: profile
@@ -1352,11 +1352,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/list:
+  /post/v1/list:
     get:
-      summary: get user timeline
+      summary: get user posts
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1383,11 +1383,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/occasion/{occasionId}/list:
+  /post/v1/occasion/{occasionId}/list:
     get:
-      summary: get wedding timeline
+      summary: get occasion posts
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1415,11 +1415,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/new:
+  /post/v1/new:
     post:
       summary: create new post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1434,11 +1434,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/{id}:
+  /post/v1/{id}:
     get:
       summary: get a post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1451,7 +1451,7 @@ paths:
     put:
       summary: update post details
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1470,7 +1470,7 @@ paths:
     delete:
       summary: delete a post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1480,11 +1480,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/{id}/like:
+  /post/v1/{id}/like:
     put:
       summary: like action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1503,7 +1503,7 @@ paths:
     delete:
       summary: unlike action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1513,11 +1513,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/comment:
+  /post/v1/{id}/comment:
     post:
       summary: new comment action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1536,7 +1536,7 @@ paths:
     put:
       summary: edit comment action on id
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1555,7 +1555,7 @@ paths:
     delete:
       summary: uncomment action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1565,11 +1565,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/likes:
+  /post/v1/{id}/likes:
     get:
       summary: paginated list of likes for a parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -1591,11 +1591,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/comments:
+  /post/v1/{id}/comments:
     get:
       summary: paginated list of comments for a parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
