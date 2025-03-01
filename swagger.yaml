@@ -58,6 +58,13 @@ components:
       schema:
         type: string
       required: true
+    occasionId:
+      in: path
+      description: unique id of the occasion
+      name: occasionId
+      schema:
+        type: string
+      required: true
     eventId:
       in: path
       description: unique id of the event
@@ -1376,7 +1383,7 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/wedding/{weddingId}/list:
+  /timeline/v1/occasion/{occasionId}/list:
     get:
       summary: get wedding timeline
       tags:
@@ -1402,7 +1409,7 @@ paths:
           required: true
           schema:
             type: number
-        - $ref: '#/components/parameters/weddingId'
+        - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
