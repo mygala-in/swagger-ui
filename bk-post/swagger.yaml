@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
   version: 2.1.0
-  title: bk-timeline
+  title: bk-post
 tags:
-  - name: timeline
-    description: timeline service apis
+  - name: post
+    description: post service apis
 servers:
   - url: https://dev-api.mygala.in
     description: dev
@@ -228,11 +228,11 @@ components:
         text:
           type: string
 paths:
-  /timeline/v1/list:
+  /post/v1/list:
     get:
-      summary: get user timeline
+      summary: get user posts
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -259,11 +259,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/occasion/{occasionId}/list:
+  /post/v1/occasion/{occasionId}/list:
     get:
-      summary: get occasion timeline
+      summary: get occasion posts
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -291,11 +291,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/new:
+  /post/v1/new:
     post:
       summary: create new post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -310,11 +310,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/{id}:
+  /post/v1/{id}:
     get:
       summary: get a post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -327,7 +327,7 @@ paths:
     put:
       summary: update post details
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -346,7 +346,7 @@ paths:
     delete:
       summary: delete a post
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -356,11 +356,11 @@ paths:
       responses:
         '200':
           description: success
-  /timeline/v1/{id}/like:
+  /post/v1/{id}/like:
     put:
       summary: like action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -379,7 +379,7 @@ paths:
     delete:
       summary: unlike action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -389,11 +389,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/comment:
+  /post/v1/{id}/comment:
     post:
       summary: new comment action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -412,7 +412,7 @@ paths:
     put:
       summary: edit comment action on id
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -431,7 +431,7 @@ paths:
     delete:
       summary: uncomment action on parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -441,11 +441,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/likes:
+  /post/v1/{id}/likes:
     get:
       summary: paginated list of likes for a parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
@@ -467,11 +467,11 @@ paths:
       responses:
         '200':
           description: api successful
-  /timeline/v1/{id}/comments:
+  /post/v1/{id}/comments:
     get:
       summary: paginated list of comments for a parent
       tags:
-        - timeline
+        - post
       security:
         - Bearer: []
       parameters:
