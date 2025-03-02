@@ -201,10 +201,14 @@ components:
         type:
           type: string
           description: type of post to be created
-        weddingId:
-          type: number
+        parentId:
+          type: string
         status:
           type: string
+          enum:
+            - P
+            - A
+            - B
         text:
           type: string
     update-post:
