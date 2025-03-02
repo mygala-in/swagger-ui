@@ -44,6 +44,13 @@ components:
       schema:
         type: string
       required: true
+    parentId:
+      in: path
+      description: unique id of a parent
+      name: parentId
+      schema:
+        type: string
+      required: true
     eventId:
       in: path
       description: unique id of the event
@@ -356,34 +363,28 @@ paths:
       responses:
         '200':
           description: success
-  /post/v1/{id}/like:
+  /post/v1/{parentId}/like:
     put:
-      summary: like action on parent
+      summary: like action on parentId
       tags:
         - post
       security:
         - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/like'
       responses:
         '200':
           description: api successful
     delete:
-      summary: unlike action on parent
+      summary: unlike action on parentId
       tags:
         - post
       security:
         - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
