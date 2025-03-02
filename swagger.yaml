@@ -1511,15 +1511,15 @@ paths:
       responses:
         '200':
           description: api successful
-  /post/v1/{id}/comment:
+  /post/v1/{parentId}/comment:
     post:
-      summary: new comment action on parent
+      summary: new comment action on parentId
       tags:
         - post
       security:
         - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       requestBody:
@@ -1531,6 +1531,7 @@ paths:
       responses:
         '200':
           description: api successful
+  /post/v1/{id}/comment:
     put:
       summary: edit comment action on id
       tags:
@@ -1551,7 +1552,7 @@ paths:
         '200':
           description: api successful
     delete:
-      summary: uncomment action on parent
+      summary: uncomment action on id
       tags:
         - post
       security:
