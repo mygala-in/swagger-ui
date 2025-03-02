@@ -413,10 +413,6 @@ components:
           type: string
     comment:
       properties:
-        postId:
-          type: number
-        type:
-          type: string
         text:
           type: string
     new-vendor:
