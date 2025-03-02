@@ -457,7 +457,7 @@ paths:
       responses:
         '200':
           description: api successful
-  /post/v1/{id}/comments:
+  /post/v1/{parentId}/comments:
     get:
       summary: paginated list of comments for a parent
       tags:
@@ -465,7 +465,7 @@ paths:
       security:
         - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/parentId'
         - in: query
           name: page
           schema:
