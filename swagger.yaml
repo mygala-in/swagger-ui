@@ -1560,7 +1560,7 @@ paths:
       responses:
         '200':
           description: api successful
-  /post/v1/{id}/likes:
+  /post/v1/{parentId}/likes:
     get:
       summary: paginated list of likes for a parent
       tags:
@@ -1568,7 +1568,7 @@ paths:
       security:
         - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/parentId'
         - in: query
           name: page
           schema:
@@ -1577,10 +1577,6 @@ paths:
           name: size
           schema:
             type: number
-        - in: query
-          name: type
-          schema:
-            type: string
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
@@ -1603,10 +1599,6 @@ paths:
           name: size
           schema:
             type: number
-        - in: query
-          name: type
-          schema:
-            type: string
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
