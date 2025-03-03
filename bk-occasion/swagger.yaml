@@ -1,0 +1,392 @@
+openapi: 3.0.0
+info:
+  version: 2.1.0
+  title: bk-occasion
+tags:
+  - name: occasion
+    description: occasion & event service apis
+servers:
+  - url: https://dev-api.mygala.in
+    description: dev
+  - url: https://api.mygala.in
+    description: prod
+  - url: http://localhost:3000
+    description: localhost
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  parameters:
+  
+    occasionId:
+      in: path
+      description: unique id of the occasion
+      name: occasionId
+      schema:
+        type: string
+      required: true
+
+    eventId:
+      in: path
+      description: unique id of the event
+      name: eventId
+      schema:
+        type: string
+      required: true
+      
+    include:
+      in: query
+      description: extra includes based on requirement
+      name: include
+      schema:
+        type: string
+      required: false
+
+
+    platform:
+      in: header
+      name: platform
+      schema:
+        type: string
+        enum:
+          - android
+          - web
+          - ios
+      required: true
+    appversion:
+      in: header
+      description: build number of the app
+      name: appversion
+      schema:
+        type: integer
+        default: 1
+      required: true
+
+  schemas:
+    new-occasion:
+      properties:
+        title:
+          type: string
+        note:
+          type: string
+        fromTime:
+          type: number
+        type:
+          type: string
+        url:
+          type: string
+        locationId:
+          type: number
+
+    update-occasion:
+      properties:
+        title:
+          type: string
+        note:
+          type: string
+        code:
+          type: string
+        url:
+          type: string
+        type:
+          type: string
+        fromTime:
+          type: number
+        tillTime:
+          type: number
+        locationId:
+          type: integer
+        extras:
+          type: object
+        isPublic:
+          type: boolean
+          
+    delete-occasion:
+      properties:
+        code:
+          type: string
+
+    occasion-event:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        fromTime:
+          type: number
+        tillTime:
+          type: number
+          
+paths:
+  /occasion/v1/list:
+    get:
+      summary: list joined occasions
+      description: lists the occasions for which user has signed up for.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: type
+          required: true
+          schema:
+            type: string
+            enum:
+              - events
+              - users
+              - occasions
+              - assets
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+          
+          
+  /occasion/v1/new:
+    post:
+      summary: creates a new occasion
+      description: >-
+        User should provide basic details such as name & description. Also
+        supports optional fields such as from & till dates/datetimes.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-occasion'
+      responses:
+        '200':
+          description: success
+          
+  /occasion/v1/{occasionId}:
+    get:
+      summary: get occasion by id
+      description: User can provide additional supported occasion fields.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+
+    put:
+      summary: updates occasion data
+      description: User can provide additional supported occasion fields.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-occasion'
+      responses:
+        '200':
+          description: success
+          
+    delete:
+      summary: delete the occasion event
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/delete-occasion'
+      responses:
+        '200':
+          description: success
+          
+  /occasion/v1/{occasionId}/join:
+    put:
+      summary: users will request to join the event using this
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: side
+          required: false
+          schema:
+            type: string
+            enum:
+              - B
+              - G
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+          
+  /occasion/v1/{occasionId}/assets:
+    get:
+      summary: get images of the occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+
+  /occasion/v1/{occasionId}/users:
+    get:
+      summary: get users of the occasion
+      description: >-
+        Returns the list of users who are in verified, unverified, rejected
+        states along with their sides. The requested user should be in verified
+        state in the occasion.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+
+  /occasion/v1/{occasionId}/event/new:
+    post:
+      summary: creates a new event of the occasion
+      description: >-
+        User should provide basic details such as name & description. Also
+        supports optional fields such as from & till dates/datetimes.
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-event'
+      responses:
+        '200':
+          description: success
+
+  /occasion/v1/{occasionId}/event/list:
+    get:
+      summary: get events of the occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+
+  /occasion/v1/{occasionId}/event/{eventId}:
+    put:
+      summary: update the occasion event details
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-event'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: delete the occasion event
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    get:
+      summary: get the occasion event
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+
+  /occasion/v1/{occasionId}/event/{eventId}/assets:
+    get:
+      summary: get assets of the occasion event
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
