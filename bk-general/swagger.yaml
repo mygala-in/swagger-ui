@@ -72,7 +72,7 @@ components:
         name:
           type: string
         whatsappNumber:
-          type: string
+          type: number
         eventLocation:
           type: string
         eventVenue:
@@ -86,14 +86,10 @@ components:
         endTime:
           type: string
         services:
-          type: array
-          items:
-            type: string
+          type: string
         priceRange:
           type: string
         referralSource:
-          type: string
-        extras:
           type: string
 
 paths:
