@@ -219,6 +219,35 @@ components:
         type: string
       required: true
   schemas:
+    enquiry-event:
+      type: object
+      properties:
+        name:
+          type: string
+        whatsappNumber:
+          type: string
+        eventLocation:
+          type: string
+        eventVenue:
+          type: string
+        eventName:
+          type: string
+        eventDate:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        services:
+          type: array
+          items:
+            type: string
+        priceRange:
+          type: string
+        referralSource:
+          type: string
+        extras:
+          type: string
     new-occasion:
       properties:
         title:

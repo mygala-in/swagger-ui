@@ -13,6 +13,11 @@ servers:
   - url: http://localhost:3000
     description: localhost
 components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
   parameters:
     page:
       in: query
@@ -60,6 +65,37 @@ components:
         type: integer
         default: 1
       required: true
+  schemas:
+    enquiry-event:
+      type: object
+      properties:
+        name:
+          type: string
+        whatsappNumber:
+          type: string
+        eventLocation:
+          type: string
+        eventVenue:
+          type: string
+        eventName:
+          type: string
+        eventDate:
+          type: string
+        startTime:
+          type: string
+        endTime:
+          type: string
+        services:
+          type: array
+          items:
+            type: string
+        priceRange:
+          type: string
+        referralSource:
+          type: string
+        extras:
+          type: string
+
 paths:
   /general/v1/swagger:
     get:
@@ -113,3 +149,17 @@ paths:
       responses:
         '200':
           description: success
+  /general/v1/enquiry:
+    post:
+      summary: Create a new general enquiry
+      tags:
+        - enquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/enquiry-event'
+      responses:
+        '200':
+          description: Enquiry successfully created
