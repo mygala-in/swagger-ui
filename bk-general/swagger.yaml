@@ -71,21 +71,13 @@ components:
       properties:
         name:
           type: string
-        whatsappNumber:
-          type: number
+        number:
+          type: string
         eventLocation:
           type: string
-        eventVenue:
+        eventSchedule:
           type: string
-        eventName:
-          type: string
-        eventDate:
-          type: string
-        startTime:
-          type: string
-        endTime:
-          type: string
-        services:
+        servicesIntrested:
           type: string
         priceRange:
           type: string
@@ -149,7 +141,7 @@ paths:
     post:
       summary: Create a new general enquiry
       tags:
-        - enquiry
+        - general
       requestBody:
         required: true
         content:

@@ -224,29 +224,17 @@ components:
       properties:
         name:
           type: string
-        whatsappNumber:
+        number:
           type: string
         eventLocation:
           type: string
-        eventVenue:
+        eventSchedule:
           type: string
-        eventName:
+        servicesIntrested:
           type: string
-        eventDate:
-          type: string
-        startTime:
-          type: string
-        endTime:
-          type: string
-        services:
-          type: array
-          items:
-            type: string
         priceRange:
           type: string
         referralSource:
-          type: string
-        extras:
           type: string
     new-occasion:
       properties:
@@ -663,6 +651,20 @@ paths:
       responses:
         '200':
           description: api successful
+  /general/v1/enquiry:
+    post:
+      summary: Create a new general enquiry
+      tags:
+        - general
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/enquiry-event'
+      responses:
+        '200':
+          description: Enquiry successfully created
   /profile/v1/signin/{provider}:
     put:
       summary: used for google signin, apple signin and phone signin
