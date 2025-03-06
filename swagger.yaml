@@ -219,22 +219,21 @@ components:
         type: string
       required: true
   schemas:
-    enquiry-event:
-      type: object
+    new-enquiry:
       properties:
         name:
           type: string
-        number:
+        phone:
           type: string
-        eventLocation:
+        location:
           type: string
-        eventSchedule:
+        schedule:
           type: string
-        servicesIntrested:
+        services:
           type: string
-        priceRange:
+        price:
           type: string
-        referralSource:
+        source:
           type: string
     new-occasion:
       properties:
@@ -661,7 +660,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/enquiry-event'
+              $ref: '#/components/schemas/new-enquiry'
       responses:
         '200':
           description: Enquiry successfully created
