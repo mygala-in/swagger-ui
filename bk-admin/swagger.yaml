@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  version: 2.1.0
+  title: MyGala
+  description: Backend APIs documentation for MyGala
+tags:
+  - name: admin
+    description: admin action apis
+servers:
+  - url: https://dev-api.mygala.in
+    description: dev
+  - url: https://api.mygala.in
+    description: prod
+  - url: http://localhost:3000
+    description: localhost
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+  parameters:
+    include:
+      in: query
+      description: extra includes based on requirement
+      name: include
+      schema:
+        type: string
+      required: false
+    platform:
+      in: header
+      name: platform
+      schema:
+        type: string
+        enum:
+          - android
+          - web
+          - ios
+      required: true
+    appversion:
+      in: header
+      description: build number of the app
+      name: appversion
+      schema:
+        type: integer
+        default: 1
+      required: true
+    page:
+      in: query
+      name: page
+      schema:
+        type: number
+    query:
+      in: query
+      name: q
+      schema:
+        type: string
+      required: true
+    userId:
+      in: path
+      description: the id can be email, username or phone
+      name: userId
+      schema:
+        type: string
+      required: true
+  schemas:
+    query-cache:
+      properties:
+        action:
+          type: string
+          enum:
+            - set
+            - get
+            - del
+            - ttl
+        key:
+          type: string
+        val:
+          type: string
+        type:
+          type: string
+          enum:
+            - json
+        secs:
+          type: number
+    query-db:
+      properties:
+        query:
+          type: string
+          enum:
+            - select * from users;
+    new-user:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        phone:
+          type: number
+        role:
+          type: number
+        dialCode:
+          type: string
+    update-user:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        bio:
+          type: string
+        dob:
+          description: YYYY-MM-DD format
+          type: string
+        phone:
+          type: string
+        gender:
+          type: string
+        maritial:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+        city:
+          type: string
+        country:
+          type: string
+        pincode:
+          type: string
+        instagram:
+          type: string
+        facebook:
+          type: string
+  properties:
+    name:
+      type: string
+    username:
+      type: string
+    phone:
+      type: string
+    role:
+      type: string
+    dialCode:
+      type: string
+    email:
+      type: string
+    password:
+      type: string
+    provider:
+      type: string
+    uid:
+      type: string
+    isVerified:
+      type: string
+paths:
+  /admin/v1/query/db:
+    post:
+      summary: query rds db operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-db'
+      responses:
+        '200':
+          description: api successful
+  /admin/v1/query/cache:
+    post:
+      summary: query redis cache operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-cache'
+      responses:
+        '200':
+          description: api successful
+  /admin/v1/user/list:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /admin/v1/user/new:
+    post:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-user'
+      responses:
+        '200':
+          description: success
+  /admin/v1/user/{userId}:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-user'
+      responses:
+        '200':
+          description: success
