@@ -1160,6 +1160,10 @@ paths:
               - after
               - before
         - in: query
+          name: postId
+          schema:
+            type: number
+        - in: query
           name: size
           required: true
           schema:
