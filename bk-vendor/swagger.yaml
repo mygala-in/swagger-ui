@@ -3,8 +3,6 @@ info:
   version: 2.1.0
   title: bk-vendor
 tags:
-  - name: admin
-    description: admin action apis
   - name: vendor
     description: vendor service apis
 servers:
@@ -412,7 +410,6 @@ paths:
       summary: create new vendor package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -433,7 +430,6 @@ paths:
       summary: create new vendor package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -448,7 +444,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -463,7 +458,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -484,7 +478,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -560,81 +553,6 @@ paths:
               - approve
               - reject
               - suspend
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/list:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/new:
-    post:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/{vendorId}:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    delete:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
