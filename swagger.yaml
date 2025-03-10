@@ -6,28 +6,27 @@ info:
 tags:
   - name: admin
     description: admin action apis
+  - name: occasion
+    description: occasion & event service apis
+  - name: post
+    description: post service apis
   - name: vendor
     description: vendor service apis
   - name: notification
     description: notification service apis
-  - name: post
-    description: post service apis
   - name: general
     description: General public apis
   - name: profile
     description: profile service apis
   - name: chat
     description: individual & group chat apis
-  - name: wedding
-    description: wedding & event service apis
   - name: asset
     description: asset service apis
   - name: location
     description: location service apis
   - name: gifting
     description: gifting service apis
-  - name: occasion
-    description: occasion & event service apis
+
 servers:
   - url: https://dev-api.mygala.in
     description: dev
@@ -50,13 +49,6 @@ components:
     query:
       in: query
       name: q
-      schema:
-        type: string
-      required: true
-    weddingId:
-      in: path
-      description: unique id of the wedding
-      name: weddingId
       schema:
         type: string
       required: true
@@ -97,7 +89,7 @@ components:
       required: true
     entity:
       in: path
-      description: all, wedding, user etc; individual search components
+      description: all, occasion, user etc; individual search components
       name: entity
       schema:
         type: string
@@ -323,7 +315,7 @@ components:
           type: string
         eventId:
           type: number
-        weddingId:
+        occasionId:
           type: number
         chatId:
           type: number
@@ -434,36 +426,6 @@ components:
           type: string
         facebook:
           type: string
-    new-wedding:
-      properties:
-        title:
-          type: string
-        note:
-          type: string
-        side:
-          type: string
-    update-wedding:
-      properties:
-        title:
-          type: string
-        note:
-          type: string
-        groomId:
-          type: string
-        brideId:
-          type: string
-        side:
-          type: string
-    wedding-event:
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        fromTime:
-          type: number
-        tillTime:
-          type: number
     update-chat:
       properties:
         isGroup:
@@ -475,12 +437,6 @@ components:
         name:
           type: string
         url:
-          type: string
-    like:
-      properties:
-        postId:
-          type: number
-        type:
           type: string
     comment:
       properties:
@@ -604,7 +560,7 @@ paths:
           description: api successful
   /general/v1/search/{entity}:
     get:
-      summary: global search; includes mini profiles & active weddings
+      summary: global search; includes mini profiles & active occasions
       tags:
         - general
       security:
@@ -934,287 +890,6 @@ paths:
       responses:
         '200':
           description: success
-  /wedding/v1/list:
-    get:
-      summary: list joined weddings
-      description: lists the weddings for which user has signed up for.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - in: query
-          name: type
-          required: true
-          schema:
-            type: string
-            enum:
-              - events
-              - images
-              - users
-              - weddings
-              - streams
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/new:
-    post:
-      summary: creates a new wedding
-      description: >-
-        User should provide basic details such as name & description. Also
-        supports optional fields such as from & till dates/datetimes.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/new-wedding'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}:
-    get:
-      summary: get wedding by id
-      description: User can provide additional supported wedding fields.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      summary: updates wedding data
-      description: User can provide additional supported wedding fields.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/update-wedding'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/join:
-    put:
-      summary: users will request to join the event using this
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - in: query
-          name: side
-          required: true
-          schema:
-            type: string
-            enum:
-              - B
-              - G
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/assets:
-    get:
-      summary: get images of the wedding
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/event/{eventId}/assets:
-    get:
-      summary: get assets of the wedding event
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/eventId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/users:
-    get:
-      summary: get users of the wedding
-      description: >-
-        Returns the list of users who are in verified, unverified, rejected
-        states along with their sides. The requested user should be in verified
-        state in the wedding.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/events:
-    get:
-      summary: get events of the wedding
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/preview:
-    get:
-      summary: preview the wedding
-      tags:
-        - wedding
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/event/new:
-    post:
-      summary: creates a new event of the wedding
-      description: >-
-        User should provide basic details such as name & description. Also
-        supports optional fields such as from & till dates/datetimes.
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/wedding-event'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/event/{eventId}:
-    put:
-      summary: update the wedding event details
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/eventId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/wedding-event'
-      responses:
-        '200':
-          description: success
-    delete:
-      summary: delete the wedding event
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/eventId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    get:
-      summary: get the wedding event
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/eventId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /wedding/v1/{weddingId}/user/{userId}:
-    put:
-      summary: take action on the wedding user
-      tags:
-        - wedding
-      security:
-        - Bearer: []
-      parameters:
-        - in: query
-          name: action
-          required: true
-          schema:
-            type: string
-            enum:
-              - verify
-              - reject
-              - remove
-              - watch
-              - user
-              - admin
-              - side
-        - $ref: '#/components/parameters/weddingId'
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
   /asset/v1/new:
     post:
       summary: create new asset & return signed url
@@ -1476,11 +1151,6 @@ paths:
       security:
         - Bearer: []
       parameters:
-        - in: query
-          name: postId
-          required: true
-          schema:
-            type: number
         - in: query
           name: action
           required: true
@@ -2401,12 +2071,6 @@ paths:
         - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/delete-occasion'
       responses:
         '200':
           description: success

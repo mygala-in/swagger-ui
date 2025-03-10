@@ -262,11 +262,6 @@ paths:
         - Bearer: []
       parameters:
         - in: query
-          name: postId
-          required: true
-          schema:
-            type: number
-        - in: query
           name: action
           required: true
           schema:
