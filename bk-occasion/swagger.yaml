@@ -20,6 +20,26 @@ components:
       in: header
   parameters:
   
+    status:
+      in: query
+      name: status
+      description: The status for rsvp.
+      schema:
+        type: string
+        enum:
+          - Y
+          - N
+          - M
+      required: true
+    
+    parentId:
+      in: path
+      description: unique id of the occasion or event
+      name: parentId
+      schema:
+        type: string
+      required: true
+      
     occasionId:
       in: path
       description: unique id of the occasion
@@ -385,6 +405,62 @@ paths:
       parameters:
         - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/rsvp/{parentId}:
+    get:
+      summary: Get the RSVP for the authenticated user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: Create or update the RSVP for the authenticated user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: Delete the RSVP for user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  
+  /occasion/v1/rsvp/{parentId}/list:
+    get:
+      summary: Get the list of all RSVPs for the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
