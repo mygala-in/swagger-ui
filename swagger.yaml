@@ -52,6 +52,17 @@ components:
       schema:
         type: string
       required: true
+    status:
+      in: query
+      name: status
+      description: The status for rsvp.
+      schema:
+        type: string
+        enum:
+          - Y
+          - N
+          - M
+      required: true
     occasionId:
       in: path
       description: unique id of the occasion
@@ -284,7 +295,6 @@ components:
           type: string
         locationId:
           type: number
-
     update-occasion:
       properties:
         title:
@@ -307,12 +317,10 @@ components:
           type: object
         isPublic:
           type: boolean
-          
     delete-occasion:
       properties:
         code:
           type: string
-
     occasion-event:
       properties:
         name:
@@ -548,8 +556,6 @@ components:
             required:
               - parentId
               - url
-      required:
-        - items
     update-wishlist:
       properties:
         name:
@@ -1927,7 +1933,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/list:
     get:
       summary: list joined occasions
@@ -1952,8 +1957,6 @@ paths:
       responses:
         '200':
           description: success
-          
-          
   /occasion/v1/new:
     post:
       summary: creates a new occasion
@@ -1976,7 +1979,6 @@ paths:
       responses:
         '200':
           description: success
-          
   /occasion/v1/{occasionId}:
     get:
       summary: get occasion by id
@@ -1993,7 +1995,6 @@ paths:
       responses:
         '200':
           description: success
-
     put:
       summary: updates occasion data
       description: User can provide additional supported occasion fields.
@@ -2013,8 +2014,7 @@ paths:
               $ref: '#/components/schemas/update-occasion'
       responses:
         '200':
-          description: success
-          
+          description: success  
     delete:
       summary: delete the occasion event
       tags:
@@ -2028,7 +2028,6 @@ paths:
       responses:
         '200':
           description: success
-          
   /occasion/v1/{occasionId}/join:
     put:
       summary: users will request to join the event using this
@@ -2051,7 +2050,6 @@ paths:
       responses:
         '200':
           description: success
-          
   /occasion/v1/{occasionId}/assets:
     get:
       summary: get images of the occasion
@@ -2066,7 +2064,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/users:
     get:
       summary: get users of the occasion
@@ -2085,7 +2082,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/new:
     post:
       summary: creates a new event of the occasion
@@ -2109,7 +2105,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/list:
     get:
       summary: get events of the occasion
@@ -2125,7 +2120,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/{eventId}:
     put:
       summary: update the occasion event details
@@ -2176,7 +2170,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/{eventId}/assets:
     get:
       summary: get assets of the occasion event
@@ -2187,6 +2180,61 @@ paths:
       parameters:
         - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/eventId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/rsvp/{parentId}:
+    get:
+      summary: Get the RSVP for the authenticated user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: Create or update the RSVP for the authenticated user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/status'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: Delete the RSVP for user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/rsvp/{parentId}/list:
+    get:
+      summary: Get the list of all RSVPs for the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
