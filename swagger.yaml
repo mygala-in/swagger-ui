@@ -211,6 +211,49 @@ components:
         type: string
       required: true
   schemas:
+    new-user:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        phone:
+          type: number
+        role:
+          type: number
+        dialCode:
+          type: string
+    update-user:
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        bio:
+          type: string
+        dob:
+          description: YYYY-MM-DD format
+          type: string
+        phone:
+          type: string
+        gender:
+          type: string
+        maritial:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+        city:
+          type: string
+        country:
+          type: string
+        pincode:
+          type: string
+        instagram:
+          type: string
+        facebook:
+          type: string
     new-enquiry:
       properties:
         name:
@@ -522,6 +565,102 @@ components:
         quantity:
           type: number
 paths:
+  /admin/v1/query/db:
+    post:
+      summary: query rds db operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-db'
+      responses:
+        '200':
+          description: api successful
+  /admin/v1/query/cache:
+    post:
+      summary: query redis cache operations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/query-cache'
+      responses:
+        '200':
+          description: api successful
+  /admin/v1/user/list:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /admin/v1/user/new:
+    post:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-user'
+      responses:
+        '200':
+          description: success
+  /admin/v1/user/{userId}:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update-user'
+      responses:
+        '200':
+          description: success
   /general/v1/swagger:
     get:
       summary: gets the swagger config
@@ -574,38 +713,6 @@ paths:
       responses:
         '200':
           description: success
-  /general/v1/query/db:
-    post:
-      summary: query rds db operations
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/query-db'
-      responses:
-        '200':
-          description: api successful
-  /general/v1/query/cache:
-    post:
-      summary: query redis cache operations
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/query-cache'
-      responses:
-        '200':
-          description: api successful
   /general/v1/enquiry:
     post:
       summary: Create a new general enquiry
@@ -672,83 +779,6 @@ paths:
           description: username available
         '403':
           description: username taken
-  /profile/v1/admin/user/list:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /profile/v1/admin/user/new:
-    post:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      responses:
-        '200':
-          description: success
-  /profile/v1/admin/user/{userId}:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      responses:
-        '200':
-          description: success
-    delete:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
   /profile/v1/{userId}:
     put:
       summary: to update the user profile details
@@ -1552,7 +1582,6 @@ paths:
       summary: create new vendor package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -1573,7 +1602,6 @@ paths:
       summary: create new vendor package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -1588,7 +1616,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -1603,7 +1630,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -1624,7 +1650,6 @@ paths:
       summary: update requested package
       tags:
         - vendor
-        - admin
       security:
         - Bearer: []
       parameters:
@@ -1700,81 +1725,6 @@ paths:
               - approve
               - reject
               - suspend
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/list:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/new:
-    post:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /vendor/v1/admin/vendor/{vendorId}:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    delete:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:

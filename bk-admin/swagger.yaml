@@ -110,7 +110,6 @@ components:
         bio:
           type: string
         dob:
-          description: YYYY-MM-DD format
           type: string
         phone:
           type: string
@@ -132,27 +131,6 @@ components:
           type: string
         facebook:
           type: string
-  properties:
-    name:
-      type: string
-    username:
-      type: string
-    phone:
-      type: string
-    role:
-      type: string
-    dialCode:
-      type: string
-    email:
-      type: string
-    password:
-      type: string
-    provider:
-      type: string
-    uid:
-      type: string
-    isVerified:
-      type: string
 paths:
   /admin/v1/query/db:
     post:
