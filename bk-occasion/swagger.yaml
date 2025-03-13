@@ -19,7 +19,6 @@ components:
       name: Authorization
       in: header
   parameters:
-  
     status:
       in: query
       name: status
@@ -31,7 +30,6 @@ components:
           - N
           - M
       required: true
-    
     parentId:
       in: path
       description: unique id of the occasion or event
@@ -39,7 +37,6 @@ components:
       schema:
         type: string
       required: true
-      
     occasionId:
       in: path
       description: unique id of the occasion
@@ -47,7 +44,6 @@ components:
       schema:
         type: string
       required: true
-
     eventId:
       in: path
       description: unique id of the event
@@ -55,7 +51,6 @@ components:
       schema:
         type: string
       required: true
-      
     include:
       in: query
       description: extra includes based on requirement
@@ -63,8 +58,6 @@ components:
       schema:
         type: string
       required: false
-
-
     platform:
       in: header
       name: platform
@@ -83,7 +76,6 @@ components:
         type: integer
         default: 1
       required: true
-
   schemas:
     new-occasion:
       properties:
@@ -99,7 +91,6 @@ components:
           type: string
         locationId:
           type: number
-
     update-occasion:
       properties:
         title:
@@ -121,13 +112,11 @@ components:
         extras:
           type: object
         isPublic:
-          type: boolean
-          
+          type: boolean    
     delete-occasion:
       properties:
         code:
           type: string
-
     occasion-event:
       properties:
         name:
@@ -137,8 +126,7 @@ components:
         fromTime:
           type: number
         tillTime:
-          type: number
-          
+          type: number  
 paths:
   /occasion/v1/list:
     get:
@@ -163,9 +151,7 @@ paths:
         - $ref: '#/components/parameters/appversion'
       responses:
         '200':
-          description: success
-          
-          
+          description: success  
   /occasion/v1/new:
     post:
       summary: creates a new occasion
@@ -187,8 +173,7 @@ paths:
               $ref: '#/components/schemas/new-occasion'
       responses:
         '200':
-          description: success
-          
+          description: success  
   /occasion/v1/{occasionId}:
     get:
       summary: get occasion by id
@@ -205,7 +190,6 @@ paths:
       responses:
         '200':
           description: success
-
     put:
       summary: updates occasion data
       description: User can provide additional supported occasion fields.
@@ -225,8 +209,7 @@ paths:
               $ref: '#/components/schemas/update-occasion'
       responses:
         '200':
-          description: success
-          
+          description: success  
     delete:
       summary: delete the occasion event
       tags:
@@ -245,8 +228,7 @@ paths:
               $ref: '#/components/schemas/delete-occasion'
       responses:
         '200':
-          description: success
-          
+          description: success  
   /occasion/v1/{occasionId}/join:
     put:
       summary: users will request to join the event using this
@@ -268,8 +250,7 @@ paths:
         - $ref: '#/components/parameters/appversion'
       responses:
         '200':
-          description: success
-          
+          description: success  
   /occasion/v1/{occasionId}/assets:
     get:
       summary: get images of the occasion
@@ -284,7 +265,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/users:
     get:
       summary: get users of the occasion
@@ -303,7 +283,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/new:
     post:
       summary: creates a new event of the occasion
@@ -327,7 +306,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/list:
     get:
       summary: get events of the occasion
@@ -343,7 +321,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/{eventId}:
     put:
       summary: update the occasion event details
@@ -394,7 +371,6 @@ paths:
       responses:
         '200':
           description: success
-
   /occasion/v1/{occasionId}/event/{eventId}/assets:
     get:
       summary: get assets of the occasion event
@@ -451,7 +427,6 @@ paths:
       responses:
         '200':
           description: success
-  
   /occasion/v1/rsvp/{parentId}/list:
     get:
       summary: Get the list of all RSVPs for the specified occasion
