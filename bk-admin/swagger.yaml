@@ -228,3 +228,17 @@ paths:
       responses:
         '200':
           description: success
+  /admin/v1/vendor/list:
+    get:
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+          
