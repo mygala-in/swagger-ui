@@ -4,8 +4,6 @@ info:
   title: MyGala
   description: Backend APIs documentation for MyGala
 tags:
-  - name: admin
-    description: admin action apis
   - name: occasion
     description: occasion & event service apis
   - name: post
@@ -222,49 +220,6 @@ components:
         type: string
       required: true
   schemas:
-    new-user:
-      properties:
-        name:
-          type: string
-        username:
-          type: string
-        phone:
-          type: number
-        role:
-          type: number
-        dialCode:
-          type: string
-    update-user:
-      properties:
-        name:
-          type: string
-        username:
-          type: string
-        bio:
-          type: string
-        dob:
-          description: YYYY-MM-DD format
-          type: string
-        phone:
-          type: string
-        gender:
-          type: string
-        maritial:
-          type: string
-        lat:
-          type: number
-        lon:
-          type: number
-        city:
-          type: string
-        country:
-          type: string
-        pincode:
-          type: string
-        instagram:
-          type: string
-        facebook:
-          type: string
     new-enquiry:
       properties:
         name:
@@ -331,31 +286,6 @@ components:
           type: number
         tillTime:
           type: number
-    query-cache:
-      properties:
-        action:
-          type: string
-          enum:
-            - set
-            - get
-            - del
-            - ttl
-        key:
-          type: string
-        val:
-          type: string
-        type:
-          type: string
-          enum:
-            - json
-        secs:
-          type: number
-    query-db:
-      properties:
-        query:
-          type: string
-          enum:
-            - select * from users;
     new-asset:
       properties:
         resourceType:
@@ -571,102 +501,6 @@ components:
         quantity:
           type: number
 paths:
-  /admin/v1/query/db:
-    post:
-      summary: query rds db operations
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/query-db'
-      responses:
-        '200':
-          description: api successful
-  /admin/v1/query/cache:
-    post:
-      summary: query redis cache operations
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/query-cache'
-      responses:
-        '200':
-          description: api successful
-  /admin/v1/user/list:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /admin/v1/user/new:
-    post:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/new-user'
-      responses:
-        '200':
-          description: success
-  /admin/v1/user/{userId}:
-    get:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      tags:
-        - admin
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/update-user'
-      responses:
-        '200':
-          description: success
   /general/v1/swagger:
     get:
       summary: gets the swagger config
