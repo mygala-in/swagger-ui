@@ -1541,35 +1541,6 @@ paths:
       responses:
         '200':
           description: success
-  /vendor/v1/{vendorId}/admin/{action}:
-    put:
-      summary: submit vendor details for review
-      tags:
-        - vendor
-      security:
-        - Bearer: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/default'
-      parameters:
-        - $ref: '#/components/parameters/vendorId'
-        - in: path
-          name: action
-          required: true
-          schema:
-            type: string
-            enum:
-              - approve
-              - reject
-              - suspend
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
   /location/v1/decode:
     get:
       summary: decode coordinates

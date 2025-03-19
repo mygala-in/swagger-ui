@@ -63,6 +63,13 @@ components:
       schema:
         type: string
       required: true
+    vendorId:
+      in: path
+      description: unique id of the vendor
+      name: vendorId
+      schema:
+        type: integer
+      required: true
   schemas:
     query-cache:
       properties:
@@ -131,6 +138,8 @@ components:
           type: string
         facebook:
           type: string
+    default:
+      type: object
 paths:
   /admin/v1/query/db:
     post:
@@ -241,4 +250,33 @@ paths:
       responses:
         '200':
           description: success
-          
+  /admin/v1/vendor/{vendorId}/{action}:
+    put:
+      summary: submit vendor details for review
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - in: path
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - approve
+              - reject
+              - suspend
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
