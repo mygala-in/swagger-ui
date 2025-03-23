@@ -432,9 +432,8 @@ paths:
       summary: Get the list of all RSVPs for the specified occasion
       tags:
         - occasion
-      security:
-        - Bearer: []
       parameters:
+        - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
