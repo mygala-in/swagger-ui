@@ -440,3 +440,16 @@ paths:
       responses:
         '200':
           description: success
+  /occasion/v1/{occasionId}/preview:
+    get:
+      summary: preview the occasion
+      tags:
+        - occasion
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
