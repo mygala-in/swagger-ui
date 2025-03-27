@@ -68,9 +68,13 @@ components:
   schemas:
     new-enquiry:
       properties:
-        name:
+        brideName:
+          type: string
+        groomName:
           type: string
         phone:
+          type: string
+        email:
           type: string
         location:
           type: string
