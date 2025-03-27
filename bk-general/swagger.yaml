@@ -81,7 +81,9 @@ components:
         schedule:
           type: string
         services:
-          type: string
+          type: array
+          items:
+            type: string
         price:
           type: string
         source:
