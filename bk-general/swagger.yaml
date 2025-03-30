@@ -155,13 +155,3 @@ paths:
       responses:
         '200':
           description: Enquiry successfully created
-  /general/v1/config/web:
-    get:
-      summary: get vendor and occasion recents
-      tags:
-        - general
-      parameters:
-        - $ref: '#/components/parameters/platform'
-      responses:
-        '200':
-          description: success
