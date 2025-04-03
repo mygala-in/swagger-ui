@@ -155,7 +155,7 @@ paths:
       responses:
         '200':
           description: Enquiry successfully created
-  /occasion/v1/search:
+  /general/v1/search:
     get:
       summary: search occasions api
       tags:
