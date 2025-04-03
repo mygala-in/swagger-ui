@@ -155,3 +155,22 @@ paths:
       responses:
         '200':
           description: Enquiry successfully created
+  /occasion/v1/search:
+    get:
+      summary: search occasions api
+      tags:
+        - general
+      parameters:
+        - in: query
+          name: title
+          schema:
+            type: string
+        - in: query
+          name: include
+          schema:
+            type: string
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
