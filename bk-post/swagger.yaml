@@ -278,7 +278,7 @@ paths:
           required: true
           schema:
             type: number
-        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/parentId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
