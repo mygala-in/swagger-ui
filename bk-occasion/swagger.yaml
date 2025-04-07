@@ -51,6 +51,13 @@ components:
       schema:
         type: string
       required: true
+    userId:
+      in: path
+      description: unique id of the user
+      name: userId
+      schema:
+        type: string
+      required: true
     include:
       in: query
       description: extra includes based on requirement
@@ -448,6 +455,40 @@ paths:
       parameters:
         - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/user/{userId}:
+    put:
+      summary: take action on the occasion user
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - verify
+              - remove
+              - user
+              - admin
+              - side
+        - in: query
+          name: side
+          required: false
+          schema:
+            type: string
+            enum:
+              - B
+              - G
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/userId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
