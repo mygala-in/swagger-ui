@@ -476,6 +476,7 @@ paths:
             enum:
               - verify
               - remove
+              - exit
               - user
               - admin
               - side
