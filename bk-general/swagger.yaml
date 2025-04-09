@@ -88,6 +88,10 @@ components:
           type: string
         source:
           type: string
+    newsletter:
+      properties:
+        email:
+          type: string
 paths:
   /general/v1/swagger:
     get:
@@ -154,7 +158,7 @@ paths:
               $ref: '#/components/schemas/new-enquiry'
       responses:
         '200':
-          description: Enquiry successfully created
+          description: api successful
   /general/v1/search:
     get:
       summary: search occasions api
@@ -174,3 +178,17 @@ paths:
       responses:
         '200':
           description: success
+  /general/v1/newsletter:
+    put:
+      summary: Store the email of the newsletter
+      tags:
+        - general
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              - $ref: '#/components/schemas/newsletter'
+      responses:
+        '200':
+          description: api successful
