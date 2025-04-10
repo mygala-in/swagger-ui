@@ -127,11 +127,10 @@ paths:
           description: api successful
   /general/v1/search/{entity}:
     get:
-      summary: global search; includes mini profiles & active weddings
+      summary: global search; includes mini profiles, active invites, approved vendors
       tags:
         - general
-      security:
-        - Bearer: []
+      security: []
       parameters:
         - $ref: '#/components/parameters/entity'
         - $ref: '#/components/parameters/query'
@@ -155,22 +154,3 @@ paths:
       responses:
         '200':
           description: Enquiry successfully created
-  /general/v1/search:
-    get:
-      summary: search occasions api
-      tags:
-        - general
-      parameters:
-        - in: query
-          name: title
-          schema:
-            type: string
-        - in: query
-          name: include
-          schema:
-            type: string
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
