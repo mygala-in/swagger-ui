@@ -140,7 +140,8 @@ paths:
       summary: global search; includes mini profiles, active invites, approved vendors
       tags:
         - general
-      security: []
+      security:
+        - Bearer: []
       parameters:
         - $ref: '#/components/parameters/entity'
         - $ref: '#/components/parameters/query'
