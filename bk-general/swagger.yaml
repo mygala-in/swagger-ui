@@ -32,7 +32,7 @@ components:
       required: true
     entity:
       in: path
-      description: all, wedding, user etc; individual search components
+      description: all, invites, vendors ,users
       name: entity
       schema:
         type: string
