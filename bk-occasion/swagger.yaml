@@ -133,7 +133,11 @@ components:
         fromTime:
           type: number
         tillTime:
-          type: number  
+          type: number
+    occasion-rsvp:
+      properties:
+        rsvp:
+          type: string  
 paths:
   /occasion/v1/list:
     get:
@@ -434,16 +438,23 @@ paths:
       responses:
         '200':
           description: success
-  /occasion/v1/rsvp/{parentId}/list:
-    get:
-      summary: Get the list of all RSVPs for the specified occasion
+  /occasion/v1/{occasionId}/rsvp:
+    put:
+      summary: add or update the RSVP for specified occasion
       tags:
         - occasion
+      security:
+        - Bearer: []
       parameters:
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-rsvp'
       responses:
         '200':
           description: success
