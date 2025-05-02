@@ -479,7 +479,7 @@ paths:
     get:
       summary: get vendors added for the occasion
       tags:
-        - general
+        - occasion
       security:
         - Bearer: []
       parameters:
