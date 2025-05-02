@@ -475,6 +475,20 @@ paths:
       responses:
         '200':
           description: success
+  /occasion/v1/{occasionId}/vendors/list:
+    get:
+      summary: get vendors added for the occasion
+      tags:
+        - general
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/occasionId'
+      responses:
+        '200':
+          description: success
   /occasion/v1/{occasionId}/user/{userId}:
     put:
       summary: take action on the occasion user
