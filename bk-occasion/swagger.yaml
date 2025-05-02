@@ -116,6 +116,10 @@ components:
           type: number
         locationId:
           type: integer
+        vendors:
+          type: array
+          items:
+            type: integer
         extras:
           type: object
         isPublic:
