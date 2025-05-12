@@ -577,6 +577,42 @@ paths:
       responses:
         '200':
           description: Enquiry successfully created
+  /general/v1/feedback/new:
+    post:
+      summary: save new feedback
+      tags:
+        - general
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: feedback saved successfully
+  /general/v1/report/new:
+    post:
+      summary: save new report
+      tags:
+        - general
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: report saved successfully
   /profile/v1/signin/{provider}:
     put:
       summary: used for google signin, apple signin and phone signin
