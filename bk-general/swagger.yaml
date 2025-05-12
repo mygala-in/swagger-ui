@@ -94,6 +94,8 @@ components:
           type: string
         source:
           type: string
+    default:
+      type: object
 paths:
   /general/v1/swagger:
     get:
@@ -190,3 +192,39 @@ paths:
       responses:
         '200':
           description: email saved successfully
+  /general/v1/feedback/new:
+    post:
+      summary: save new feedback
+      tags:
+        - general
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: feedback saved successfully
+  /general/v1/report/new:
+    post:
+      summary: save new report
+      tags:
+        - general
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/default'
+      responses:
+        '200':
+          description: success
