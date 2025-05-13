@@ -89,6 +89,13 @@ components:
       schema:
         type: string
       required: true
+    qid:
+      in: query
+      description: unique id of the occasion
+      name: id
+      schema:
+        type: number
+      required: true
     userId:
       in: path
       description: the id can be email, username or phone
@@ -1678,7 +1685,7 @@ paths:
         - vendor
       parameters:
         - $ref: '#/components/parameters/vendorId'
-        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/qid'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
