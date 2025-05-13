@@ -219,19 +219,34 @@ components:
       schema:
         type: string
       required: true
+    albumId:
+      in: path
+      description: unique id of the album
+      name: albumId
+      schema:
+        type: string
+      required: true
   schemas:
     new-enquiry:
       properties:
-        name:
+        code:
+          type: string
+        firstName:
+          type: string
+        lastName:
           type: string
         phone:
+          type: string
+        email:
           type: string
         location:
           type: string
         schedule:
           type: string
         services:
-          type: string
+          type: array
+          items:
+            type: string
         price:
           type: string
         source:
@@ -1582,6 +1597,88 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId}/album/new:
+    post:
+      summary: create new album
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-album'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId}/album/{albumId}:
+    get:
+      summary: update requested album
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/albumId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+    put:
+      summary: update requested album
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/albumId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-album'
+      responses:
+        '200':
+          description: success
+    delete:
+      summary: update requested album
+      tags:
+        - vendor
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/albumId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /vendor/v1/{vendorId}/album:
+    get:
+      summary: get requested album
+      tags:
+        - vendor
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/id'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:

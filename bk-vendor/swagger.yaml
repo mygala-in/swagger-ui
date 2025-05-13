@@ -617,3 +617,15 @@ paths:
       responses:
         '200':
           description: success
+  /vendor/v1/{vendorId}/album:
+    get:
+      summary: get requested album
+      tags:
+        - vendor
+      parameters:
+        - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
