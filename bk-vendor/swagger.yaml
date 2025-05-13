@@ -46,11 +46,11 @@ components:
         type: string
       required: true
     id:
-      in: path
+      in: query
       description: unique id
       name: id
       schema:
-        type: string
+        type: number
       required: true
     userId:
       in: path
