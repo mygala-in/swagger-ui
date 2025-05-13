@@ -624,6 +624,7 @@ paths:
         - vendor
       parameters:
         - $ref: '#/components/parameters/vendorId'
+        - $ref: '#/components/parameters/id'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
       responses:
