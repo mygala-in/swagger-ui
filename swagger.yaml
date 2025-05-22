@@ -234,6 +234,24 @@ components:
         type: string
       required: true
   schemas:
+    new-report:
+      type: object
+      properties:
+        reason:
+          type: string
+        entity:
+          type: string
+        items:
+          type: array
+          items:
+            type: object
+        count:
+          type: number
+      required:
+        - reason
+        - entity
+        - items
+        - count
     new-enquiry:
       properties:
         code:
@@ -621,8 +639,6 @@ paths:
       summary: save new report
       tags:
         - general
-      security:
-        - Bearer: []
       parameters:
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
@@ -631,7 +647,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/default'
+              $ref: '#/components/schemas/new-enquiry'
       responses:
         '200':
           description: report saved successfully
