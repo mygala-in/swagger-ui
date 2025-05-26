@@ -473,47 +473,6 @@ paths:
       responses:
         '200':
           description: success
-  /occasion/v1/rsvp/{parentId}:
-    get:
-      summary: Get the RSVP for the authenticated user on the specified occasion
-      tags:
-        - occasion
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/parentId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    put:
-      summary: Create or update the RSVP for the authenticated user on the specified occasion
-      tags:
-        - occasion
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/parentId'
-        - $ref: '#/components/parameters/status'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-    delete:
-      summary: Delete the RSVP for user on the specified occasion
-      tags:
-        - occasion
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/parentId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
   /occasion/v1/{occasionId}/rsvp:
     post:
       summary: add RSVP for user on the specified occasion
