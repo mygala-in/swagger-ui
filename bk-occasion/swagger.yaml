@@ -411,6 +411,68 @@ paths:
       responses:
         '200':
           description: success
+  /occasion/v1/{occasionId}/invite:
+    get:
+      summary: preview the occasion
+      tags:
+        - occasion
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/vendors/list:
+    get:
+      summary: get vendors added for the occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/occasionId'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/user/{userId}:
+    put:
+      summary: take action on the occasion user
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - in: query
+          name: action
+          required: true
+          schema:
+            type: string
+            enum:
+              - verify
+              - remove
+              - exit
+              - user
+              - admin
+              - side
+        - in: query
+          name: side
+          required: false
+          schema:
+            type: string
+            enum:
+              - B
+              - G
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
   /occasion/v1/rsvp/{parentId}:
     get:
       summary: Get the RSVP for the authenticated user on the specified occasion
@@ -518,68 +580,6 @@ paths:
         - occasion
       parameters:
         - $ref: '#/components/parameters/occasionId'
-      responses:
-        '200':
-          description: success
-  /occasion/v1/{occasionId}/invite:
-    get:
-      summary: preview the occasion
-      tags:
-        - occasion
-      parameters:
-        - $ref: '#/components/parameters/occasionId'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-      responses:
-        '200':
-          description: success
-  /occasion/v1/{occasionId}/vendors/list:
-    get:
-      summary: get vendors added for the occasion
-      tags:
-        - occasion
-      security:
-        - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
-        - $ref: '#/components/parameters/occasionId'
-      responses:
-        '200':
-          description: success
-  /occasion/v1/{occasionId}/user/{userId}:
-    put:
-      summary: take action on the occasion user
-      tags:
-        - occasion
-      security:
-        - Bearer: []
-      parameters:
-        - in: query
-          name: action
-          required: true
-          schema:
-            type: string
-            enum:
-              - verify
-              - remove
-              - exit
-              - user
-              - admin
-              - side
-        - in: query
-          name: side
-          required: false
-          schema:
-            type: string
-            enum:
-              - B
-              - G
-        - $ref: '#/components/parameters/occasionId'
-        - $ref: '#/components/parameters/userId'
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/appversion'
       responses:
         '200':
           description: success
