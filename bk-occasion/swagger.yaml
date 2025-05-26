@@ -570,6 +570,7 @@ paths:
         - occasion
       parameters:
         - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
       responses:
         '200':
           description: success
