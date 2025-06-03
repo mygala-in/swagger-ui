@@ -150,8 +150,6 @@ components:
           type: number
         accomodation:
           type: boolean
-      required:
-        - rsvp
 paths:
   /occasion/v1/list:
     get:
