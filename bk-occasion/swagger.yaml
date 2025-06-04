@@ -490,23 +490,23 @@ paths:
         '200':
           description: success
   /occasion/v1/{occasionId}/rsvp/app:
-  post:
-    summary: add RSVP for user on the specified occasion
-    tags:
-      - occasion
-    security:
-      - Bearer: []
-    parameters:
-      - $ref: '#/components/parameters/occasionId'
-    requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/occasion-rsvp'
-    responses:
-      '200':
-        description: success
+    post:
+      summary: add RSVP for user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-rsvp'
+      responses:
+        '200':
+          description: success
   /occasion/v1/{occasionId}/rsvp:
     put:
       summary: update RSVP for a user on the specified occasion
