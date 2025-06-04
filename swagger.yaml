@@ -290,6 +290,18 @@ components:
           type: string
         locationId:
           type: number
+    occasion-rsvp:
+      properties:
+        rsvp:
+          type: string
+        name:
+          type: string
+        side:
+          type: string
+        guests:
+          type: number
+        accomodation:
+          type: boolean
     update-occasion:
       properties:
         title:
@@ -2153,6 +2165,69 @@ paths:
         - $ref: '#/components/parameters/eventId'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/rsvp/web:
+    post:
+      summary: add RSVP for user on the specified occasion
+      tags:
+        - occasion
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-rsvp'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/rsvp/app:
+    post:
+      summary: add RSVP for user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-rsvp'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/rsvp:
+    put:
+      summary: update RSVP for a user on the specified occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/occasion-rsvp'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/rsvp/list:
+    get:
+      summary: get RSVP list for the specified occasion
+      tags:
+        - occasion
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/include'
       responses:
         '200':
           description: success

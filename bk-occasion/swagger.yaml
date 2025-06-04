@@ -476,8 +476,6 @@ paths:
       summary: add RSVP for user on the specified occasion
       tags:
         - occasion
-      security:
-        - Bearer: []
       parameters:
         - $ref: '#/components/parameters/occasionId'
       requestBody:
@@ -516,7 +514,6 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/occasionId'
-        - $ref: '#/components/parameters/userId'
       requestBody:
         required: true
         content:
