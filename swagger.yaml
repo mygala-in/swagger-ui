@@ -2175,6 +2175,8 @@ paths:
         - occasion
       parameters:
         - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
       requestBody:
         required: true
         content:
@@ -2193,6 +2195,8 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
       requestBody:
         required: true
         content:
@@ -2211,6 +2215,8 @@ paths:
         - Bearer: []
       parameters:
         - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
       requestBody:
         required: true
         content:
@@ -2228,6 +2234,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/occasionId'
         - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
       responses:
         '200':
           description: success
