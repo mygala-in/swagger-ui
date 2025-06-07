@@ -310,7 +310,7 @@ components:
           type: string
         guests:
           type: number
-        accomodation:
+        accommodation:
           type: boolean
     update-occasion:
       properties:

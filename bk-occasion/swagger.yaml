@@ -148,7 +148,7 @@ components:
           type: string
         guests:
           type: number
-        accomodation:
+        accommodation:
           type: boolean
 paths:
   /occasion/v1/list:
