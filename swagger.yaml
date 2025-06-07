@@ -302,6 +302,16 @@ components:
           type: number
         accomodation:
           type: boolean
+    occasion-rsvp-app:
+      properties:
+        rsvp:
+          type: string
+        side:
+          type: string
+        guests:
+          type: number
+        accomodation:
+          type: boolean
     update-occasion:
       properties:
         title:
@@ -2202,7 +2212,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/occasion-rsvp'
+              $ref: '#/components/schemas/occasion-rsvp-app'
       responses:
         '200':
           description: success
@@ -2222,7 +2232,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/occasion-rsvp'
+              $ref: '#/components/schemas/occasion-rsvp-app'
       responses:
         '200':
           description: success
