@@ -1150,6 +1150,18 @@ paths:
       responses:
         '200':
           description: success
+  /post/v1/{parentId}/list:
+    get:
+      summary: get occasion posts
+      tags:
+        - post
+      parameters:
+        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
   /post/v1/new:
     post:
       summary: create new post
