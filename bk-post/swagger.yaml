@@ -474,7 +474,7 @@ paths:
       responses:
         '200':
           description: api successful
-  /post/v1/{parentId}/list:
+  /post/v1/{parentId}/recent/list:
     get:
       summary: get occasion posts
       tags:
