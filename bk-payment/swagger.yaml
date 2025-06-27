@@ -87,6 +87,27 @@ components:
           type: boolean
         message:
           type: string
+    new-order-app:
+      required:
+        - parentId
+        - side
+        - amount
+        - currency
+        - anonymous
+        - message
+      properties:
+        parentId:
+          type: string
+        side:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        anonymous:
+          type: boolean
+        message:
+          type: string
 paths:
   /payment/v1/accounts/new:
     post:
@@ -121,6 +142,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/new-order'
+      responses:
+        '200':
+          description: success
+  /payment/v1/orders/new/app:
+    post:
+      summary: create a new payment order
+      tags:
+        - payment
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-order-app'
       responses:
         '200':
           description: success
