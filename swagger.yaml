@@ -24,6 +24,8 @@ tags:
     description: location service apis
   - name: gifting
     description: gifting service apis
+  - name: payment
+    description: payment service apis
 
 servers:
   - url: https://dev-api.mygala.in
@@ -562,6 +564,68 @@ components:
           type: string
         quantity:
           type: number
+    new-album:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        assets:
+          type: array
+          items:
+            type: number
+    new-account:
+      type: object
+      required:
+        - email
+        - accountNumber
+        - beneficiaryName
+        - ifscCode
+        - lat
+        - lon
+        - decode
+      properties:
+        email:
+          type: string
+          format: email
+        accountNumber:
+          type: string
+        beneficiaryName:
+          type: string
+        ifscCode:
+          type: string
+        lat:
+          type: number
+        lon:
+          type: number
+        decode:
+          type: boolean
+    new-order:
+      type: object
+      required:
+        - name
+        - parentId
+        - side
+        - amount
+        - currency
+        - anonymous
+        - message
+      properties:
+        name:
+          type: string
+        parentId:
+          type: string
+        side:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        anonymous:
+          type: boolean
+        message:
+          type: string
 paths:
   /general/v1/swagger:
     get:
@@ -2238,6 +2302,41 @@ paths:
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /payment/v1/accounts/new:
+    post:
+      summary: create linked account for user
+      tags:
+        - payment
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-account'
+      responses:
+        '200':
+          description: success
+
+  /payment/v1/orders/new:
+    post:
+      summary: create a new payment order
+      tags:
+        - payment
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-order'
       responses:
         '200':
           description: success
