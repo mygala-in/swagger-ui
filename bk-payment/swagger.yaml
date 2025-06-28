@@ -4,7 +4,7 @@ info:
   title: bk-payment
 tags:
   - name: payment
-    description: post service apis
+    description: payment service apis
 servers:
   - url: https://dev-api.mygala.in
     description: dev
@@ -110,7 +110,7 @@ components:
           type: string
 paths:
   /payment/v1/accounts/new:
-    post:
+    put:
       summary: create linked account for user
       tags:
         - payment

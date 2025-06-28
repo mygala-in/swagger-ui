@@ -2306,7 +2306,7 @@ paths:
         '200':
           description: success
   /payment/v1/accounts/new:
-    post:
+    put:
       summary: create linked account for user
       tags:
         - payment
