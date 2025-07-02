@@ -235,6 +235,18 @@ components:
       schema:
         type: string
       required: true
+    accountId:
+      in: path
+      name: accountId
+      schema:
+        type: string
+      required: true
+    parentId:
+      in: query
+      name: parentId
+      schema:
+        type: string
+      required: false
   schemas:
     new-report:
       type: object
@@ -2322,7 +2334,6 @@ paths:
       responses:
         '200':
           description: success
-
   /payment/v1/orders/new:
     post:
       summary: create a new payment order
@@ -2337,6 +2348,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/new-order'
+      responses:
+        '200':
+          description: success
+  /payment/v1/account/{accountId}/transactions:
+    get:
+      summary: get transactions for a linked account
+      tags:
+        - payment
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/accountId'
+        - $ref: '#/components/parameters/parentId'
       responses:
         '200':
           description: success

@@ -37,6 +37,18 @@ components:
         type: integer
         default: 1
       required: true
+    accountId:
+      in: path
+      name: accountId
+      schema:
+        type: string
+      required: true
+    parentId:
+      in: query
+      name: parentId
+      schema:
+        type: string
+      required: false
   schemas:
     new-account:
       required:
@@ -161,6 +173,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/new-order-app'
+      responses:
+        '200':
+          description: success
+  /payment/v1/account/{accountId}/transactions:
+    get:
+      summary: get transactions for a linked account
+      tags:
+        - payment
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/accountId'
+        - $ref: '#/components/parameters/parentId'
       responses:
         '200':
           description: success
