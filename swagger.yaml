@@ -638,6 +638,27 @@ components:
           type: boolean
         message:
           type: string
+    new-order-app:
+      required:
+        - parentId
+        - side
+        - amount
+        - currency
+        - anonymous
+        - message
+      properties:
+        parentId:
+          type: string
+        side:
+          type: string
+        amount:
+          type: string
+        currency:
+          type: string
+        anonymous:
+          type: boolean
+        message:
+          type: string
 paths:
   /general/v1/swagger:
     get:
