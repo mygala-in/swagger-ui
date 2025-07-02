@@ -241,7 +241,7 @@ components:
       schema:
         type: string
       required: true
-    parentId:
+    qparentId:
       in: query
       name: parentId
       schema:
@@ -2317,7 +2317,7 @@ paths:
       responses:
         '200':
           description: success
-  /payment/v1/accounts/new:
+  /payment/v1/account/new:
     put:
       summary: create linked account for user
       tags:
@@ -2334,7 +2334,7 @@ paths:
       responses:
         '200':
           description: success
-  /payment/v1/orders/new:
+  /payment/v1/order/new:
     post:
       summary: create a new payment order
       tags:
@@ -2351,6 +2351,25 @@ paths:
       responses:
         '200':
           description: success
+  /payment/v1/order/new/app:
+    post:
+      summary: create a new payment order
+      tags:
+        - payment
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new-order-app'
+      responses:
+        '200':
+          description: success
   /payment/v1/account/{accountId}/transactions:
     get:
       summary: get transactions for a linked account
@@ -2362,7 +2381,7 @@ paths:
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
         - $ref: '#/components/parameters/accountId'
-        - $ref: '#/components/parameters/parentId'
+        - $ref: '#/components/parameters/qparentId'
       responses:
         '200':
           description: success

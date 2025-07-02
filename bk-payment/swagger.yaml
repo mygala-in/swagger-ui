@@ -121,7 +121,7 @@ components:
         message:
           type: string
 paths:
-  /payment/v1/accounts/new:
+  /payment/v1/account/new:
     put:
       summary: create linked account for user
       tags:
@@ -140,7 +140,7 @@ paths:
       responses:
         '200':
           description: success
-  /payment/v1/orders/new:
+  /payment/v1/order/new:
     post:
       summary: create a new payment order
       tags:
@@ -157,7 +157,7 @@ paths:
       responses:
         '200':
           description: success
-  /payment/v1/orders/new/app:
+  /payment/v1/order/new/app:
     post:
       summary: create a new payment order
       tags:
