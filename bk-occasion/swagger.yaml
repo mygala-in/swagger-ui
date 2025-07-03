@@ -150,6 +150,20 @@ components:
           type: number
         accommodation:
           type: boolean
+    accounts:
+      type: object
+      properties:
+        accounts:
+          type: object
+          properties:
+            G:
+              type: string
+            B:
+              type: string
+            default:
+              type: string
+      required:
+        - accounts
 paths:
   /occasion/v1/list:
     get:
@@ -519,6 +533,38 @@ paths:
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /occasion/v1/{occasionId}/accounts:
+    put:
+      summary: update accounts for the occasion
+      tags:
+        - occasion
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/occasionId'
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accounts:
+                  type: object
+                  properties:
+                    G:
+                      type: string
+                    B:
+                      type: string
+                    default:
+                      type: string
+              required:
+                - accounts
       responses:
         '200':
           description: success
