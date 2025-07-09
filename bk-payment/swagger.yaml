@@ -191,3 +191,24 @@ paths:
       responses:
         '200':
           description: success
+  /payment/v1/account/{accountId}/status:
+    post:
+      summary: update or fetch status for a linked account
+      tags:
+        - payment
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+        - $ref: '#/components/parameters/accountId'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: success
+          
