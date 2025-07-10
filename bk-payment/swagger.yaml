@@ -202,12 +202,6 @@ paths:
         - $ref: '#/components/parameters/platform'
         - $ref: '#/components/parameters/appversion'
         - $ref: '#/components/parameters/accountId'
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
       responses:
         '200':
           description: success
