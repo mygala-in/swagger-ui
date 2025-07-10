@@ -192,7 +192,7 @@ paths:
         '200':
           description: success
   /payment/v1/account/{accountId}/status:
-    post:
+    get:
       summary: update or fetch status for a linked account
       tags:
         - payment
