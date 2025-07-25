@@ -280,7 +280,7 @@ paths:
       responses:
         '200':
           description: success
-  /v1/migrations/db/status:
+  /admin/v1/migrations/db/status:
     get:
       summary: get status of database migrations
       tags:
@@ -293,7 +293,7 @@ paths:
       responses:
         '200':
           description: success
-  /v1/migrations/db/run:
+  /admin/v1/migrations/db/run:
     put:
       summary: run all database migrations
       tags:
@@ -306,7 +306,7 @@ paths:
       responses:
         '200':
           description: success
-  /v1/migrations/db/revert:
+  /admin/v1/migrations/db/revert:
     delete:
       summary: revert last database migration
       tags:
