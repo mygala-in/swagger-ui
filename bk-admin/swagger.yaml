@@ -280,3 +280,42 @@ paths:
       responses:
         '200':
           description: success
+  /v1/migrations/db/status:
+    get:
+      summary: get status of database migrations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /v1/migrations/db/run:
+    put:
+      summary: run all database migrations
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
+  /v1/migrations/db/revert:
+    delete:
+      summary: revert last database migration
+      tags:
+        - admin
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/appversion'
+      responses:
+        '200':
+          description: success
